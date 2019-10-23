@@ -1,3 +1,4 @@
+
 language: node_js
 
 node_js:
@@ -5,15 +6,21 @@ node_js:
 
 cache: npm
 
-before_install:
-  - ls -la
-  - mkdir dist
-  - cd dist
-  - ls -la
-
+env:
+  - NOW_TOKEN=k48Y5TlZmB6CMKo5dsk2SpW8
+  
 install:
-  - ls -la
-  - npm install 
-  - ls -la
-  - cd node-modules
-  - ls -la
+  - npm install
+
+script:
+  - npm run build
+  - npm run test
+
+before_install:
+  - "npm config set spin false"
+  - npm i -g now
+  
+deploy:
+  provider: script
+  script: bash scripts/deploy.sh
+  skip_cleanup: true
